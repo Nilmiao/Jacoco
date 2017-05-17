@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.medlinker.medlinker">
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- im 消息权限声明 -->
+
+    <!-- im 消息权限声明 -->
+    <permission
+        android:name="android.intent.permission.im.receiver_permission"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="android.intent.permission.im.receiver_permission" />
+
+    <application
+        android:name="com.excelliance.open.LBApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+
+        <!-- 由于使用了umeng的统计，这里name必须是“UMENG_CHANNEL” -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+        <!-- 注册启动activity -->
+        <activity
+            android:name=".guide.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivitySplash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- //微信支付的appid -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wxc142816db6a97de9" />
+            </intent-filter>
+
+            <!-- GrowingIO 启动圈选接口 -->
+            <intent-filter>
+                <data android:scheme="@string/growingio_url_scheme" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+            <!-- GrowingIO 启动圈选接口 -->
+        </activity>
+        <!-- 注册引导activity -->
+        <activity
+            android:name=".guide.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".common.SimpleFragmentActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".hub.ApplyCircleActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".hub.CircleDetailsActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.medicalrecord.MyMedicalRecordsActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.AddMeetingActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mine.AddPaperActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mine.MyAcademicPagerAcitivy"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.scoreanalysis.AngelScoreAnalysisActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.dochome.AngelDocHomePageActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.fightingprocess.FightingProcessActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.fightresult.FightResultActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".hub.ImportCasesActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".hub.manage.CircleMemberActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".hub.manage.CircleSelectActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".hub.manage.CircleDeleteActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".hub.manage.CircleInviteActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".hub.manage.PubManageActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".hub.manage.CircleInfoActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".communal.post.AddPostActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
+            android:name=".common.zxing.activity.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <!-- 医生圈 -->
+        <!-- 注册医生圈主页activity -->
+        <activity
+            android:name=".hub.DoctorCircleActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <!-- 注册医生圈发布activity -->
+        <activity
+            android:name=".hub.DoctorCirclePublishActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <!-- 注册医生圈消息activity -->
+        <activity
+            android:name=".hub.DoctorCircleMessageActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <!-- 注册医生圈详情activity -->
+        <activity
+            android:name=".hub.DoctorCircleDetailsActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <!-- 出诊 -->
+        <activity
+            android:name=".mine.DocInfoCheckActivity"
+            android:screenOrientation="portrait" />
+        <!-- 编辑单个病情类 -->
+        <!-- 问题详情 -->
+        <activity
+            android:name=".detail.QuesDetail.QuestionActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.postDetail" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 病例详情 -->
+        <activity
+            android:name=".detail.casedetail.CaseDetailActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.casemDetail" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 点评病例详情 -->
+        <activity
+            android:name=".detail.casedetail.AddCaseComment"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <!-- 点评列表 -->
+        <activity
+            android:name=".detail.casedetail.CommentReplyActivity"
+            android:screenOrientation="portrait" />
+        <!-- 打赏列表 -->
+        <activity
+            android:name=".detail.casedetail.AdmireMemberActivity"
+            android:screenOrientation="portrait" />
+        <!-- 科室主页 -->
+        <activity
+            android:name=".topic.TopicMainActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册回答问题activity -->
+        <activity
+            android:name=".detail.AnswerDetail.AddAnswerActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册邀请回答activity -->
+        <activity
+            android:name=".detail.SimpleUserListActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 登录activity -->
+        <!-- 登录选择科室activity -->
+        <activity
+            android:name=".mine.SectionFilterActivity"
+            android:screenOrientation="portrait" />
+        <!-- 登录activity -->
+        <activity
+            android:name=".login.LoginActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.login" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 手机号登录activity -->
+        <!-- <activity -->
+        <!-- android:name=".login.MobileLoginActivity" -->
+        <!-- android:configChanges="keyboardHidden|screenSize" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:windowSoftInputMode="stateVisible|adjustResize"/> -->
+        <!-- 邀请码登录activity -->
+        <activity
+            android:name=".login.LoginWithInviteCodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 认证身份第一步activity -->
+        <activity
+            android:name=".login.CertifyStep1Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.verify" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 认证身份第二步activity -->
+        <activity
+            android:name=".login.CertifyStep2Activity"
+            android:screenOrientation="portrait" />
+        <!-- 认证结果界面 -->
+        <!-- 我的资料-修改资料界面 -->
+        <activity
+            android:name=".mine.EditDataInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <!-- 选择医院 -->
+
+
+        <!-- 我的问题 -->
+        <!-- 我的病历 -->
+        <activity
+            android:name=".mine.MyCasesActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的回答 -->
+        <!-- 我的问答 -->
+        <activity
+            android:name=".mine.MyPostActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的关注 -->
+        <activity
+            android:name=".mine.MyFocusActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的黑名单 -->
+        <!-- 为我点赞的列表 -->
+        <activity
+            android:name=".mine.MyUpListActivity"
+            android:screenOrientation="portrait" />
+        <!-- 编辑资料 -->
+        <activity
+            android:name=".mine.UpdateUserIntroActivity"
+            android:screenOrientation="portrait" />
+        <!-- 添加擅长界面 -->
+        <!-- 搜索擅长界面 -->
+        <activity
+            android:name=".mine.SearchExpertSectionActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的学校页面 -->
+        <activity
+            android:name=".mine.MySchoolActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 添加术式 -->
+        <activity
+            android:name=".mine.AddExpertSurgeryActivity"
+            android:screenOrientation="portrait" />
+        <!-- 科室下的术式 -->
+        <activity
+            android:name=".mine.TopicExpertSurgeryActivity"
+            android:screenOrientation="portrait" />
+        <!-- 添加病例代表作 -->
+        <activity
+            android:name=".mine.AddGoodCaseActivity"
+            android:screenOrientation="portrait" />
+        <!-- 添加病例合并症 -->
+        <activity
+            android:name=".mine.AddCaseCamplActivity"
+            android:screenOrientation="portrait" />
+        <!-- 个人名片 -->
+        <activity
+            android:name=".mine.UserCardActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的视频 -->
+        <activity
+            android:name=".mine.MyVideosActivity"
+            android:screenOrientation="portrait" />
+        <!-- 缓存队列服务 -->
+        <service android:name=".mine.adapter.VideoDownloadService" />
+
+        <activity
+            android:name=".mine.MyLiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.ClipImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.ClipPhotoPickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".widget.photoPickerView.PhotoPickerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".widget.photoPickerView.PhotoPagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".widget.photoPickerView.PhotoPagerNetActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.enlargeImage" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.photoPickerView.PhotoPagerPickerActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册设置activity -->
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册登录密码设置activity -->
+        <activity
+            android:name=".settings.PasswordSettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible" />
+
+        <!-- 注册绑定手机activity -->
+        <activity
+            android:name=".settings.BindMobileActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册网页Web activity -->
+        <activity
+            android:name=".settings.WebPagerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 注册网页Web activity -->
+        <activity
+            android:name=".toutiao.HeadLineWebActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 注册网页Web activity -->
+        <activity
+            android:name=".toutiao.HeadLineReportActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <!-- 提问 -->
+        <activity
+            android:name=".community.publishpost.PostPublishActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <!-- 订阅科室 -->
+        <activity
+            android:name=".communal.labelselect.LableSubscribeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <!-- 标签选择 -->
+        <activity
+            android:name=".communal.caseform.LabelAddActivity"
+            android:screenOrientation="portrait" />
+        <!-- 标签搜索 -->
+        <!-- 科室搜索 -->
+        <activity
+            android:name=".communal.labelselect.LableSearchActivity"
+            android:screenOrientation="portrait" />
+        <!-- 添加投票 -->
+        <activity
+            android:name=".community.publishpost.AddVoteActivity"
+            android:screenOrientation="portrait" />
+        <!-- 发布病例 -->
+        <activity
+            android:name=".community.publishcase.CasePublishActivity"
+            android:screenOrientation="portrait" />
+        <!-- 注册人脉activity -->
+        <activity
+            android:name=".msg.PeopleHubActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册人脉推荐activity -->
+        <activity
+            android:name=".msg.PeopleHubRecommendActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册用户资料activity -->
+        <activity
+            android:name=".mine.UserProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.UserFocusActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.manage.SelectContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.ChatGroupManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.manage.GroupMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.DeleteMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.ManagerTransferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.ModifyNameActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 聊天页面 -->
+        <!-- 编辑病例 -->
+        <activity
+            android:name=".community.publishcase.CaseItemEditActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <!-- 群聊通讯录页面 -->
+        <activity
+            android:name=".msg.MsgGroupContact"
+            android:screenOrientation="portrait" />
+        <!-- 私信位置定位详情页 -->
+        <!-- 分组列表页 -->
+        <activity
+            android:name=".msg.ContactPackageListActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 创建分组列表页 -->
+        <activity
+            android:name=".msg.CreatePackageActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 编辑群昵称页面 -->
+        <activity
+            android:name=".msg.EditGroupNickNameActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 聊天页面 -->
+        <activity
+            android:name=".msg.MsgChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.contactPeople" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- @好友界面 -->
+        <activity
+            android:name=".msg.AtMembersActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 通知feed 流页面 -->
+        <activity
+            android:name=".msg.MsgNotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <!-- 锁屏push页 -->
+        <activity
+            android:name=".msg.MsgLockPushActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:multiprocess="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!--
+            	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
+            	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。
+            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            -->
+            <!-- <meta-data android:name="AuthorizeAdapter" android:value="cn.sharesdk.demo.MyAdapter" /> -->
+            <!--
+            	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
+            	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。
+            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            <meta-data android:name="QZoneWebShareAdapter" android:value="cn.sharesdk.demo.MyQZoneWebShareAdapter" />
+            <meta-data android:name="QQWebShareAdapter" android:value="cn.sharesdk.demo.MyQQWebShareAdapter" />
+            -->
+
+
+            <!--
+            	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            -->
+            <intent-filter>
+                <data android:scheme="db-7janx53ilz11gbs" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="tencent1103280441" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- &lt;!&ndash; QQ客户端回调 &ndash;&gt; -->
+        <!-- <activity -->
+        <!-- android:name="cn.sharesdk.tencent.qq.ResultReceiver" -->
+        <!-- android:launchMode="singleTask" -->
+        <!-- android:noHistory="true" -->
+        <!-- android:screenOrientation="portrait"> -->
+
+
+        <!-- &lt;!&ndash; -->
+        <!-- 如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW -->
+        <!-- 事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置， -->
+        <!-- 则分享结束以后不能得到正确的回调 -->
+        <!-- &ndash;&gt; -->
+        <!-- <intent-filter android:priority="1000"> -->
+        <!-- <data android:scheme="tencent1103280441"/> -->
+
+
+        <!-- <action android:name="android.intent.action.VIEW"/> -->
+
+
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- <category android:name="android.intent.category.BROWSABLE"/> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
+
+        <!-- 上传图片后台服务 -->
+        <service android:name=".service.uploadservice.UploadFilesService" />
+
+        <!-- 提供外部启动自身APP -->
+        <activity
+            android:name=".common.StartAppActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="net.medlinker.medlinker">
+            <intent-filter>
+                <data
+                    android:host="www.medlinker.net"
+                    android:scheme="medlinker" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".common.SystemReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".common.AlarmReceiver"
+            android:process=":remote" />
+
+        <activity
+            android:name=".home.SubjectTreeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".detail.NewsDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.NewsChannelAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.SearchNewsChannelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.NewsChannelActivity"
+            android:screenOrientation="portrait" />
+        <!-- 搜索病种标签页面 -->
+        <activity
+            android:name=".home.SearchSubjectActivity"
+            android:screenOrientation="portrait" />
+        <!-- 贡献排行榜页面 -->
+        <activity
+            android:name=".home.ContributionChartsActivity"
+            android:screenOrientation="portrait" />
+        <!-- 贡献排行榜页面 -->
+        <activity
+            android:name=".home.DiseaseTagMainPageActivity"
+            android:screenOrientation="portrait" />
+        <!-- 病种主页的视频Tag -->
+        <activity
+            android:name=".home.DiseaseVideoPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.ChatSearchActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.transluent"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <!-- 注册视频详情activity -->
+        <activity
+            android:name=".video.VideoDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="nosensor"
+            android:theme="@style/FullscreenTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.videoDetail" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 注册视频点评添加activity -->
+        <activity
+            android:name=".video.VideoCommentAddActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <!-- 注册视频点评全部评论activity -->
+        <activity
+            android:name=".video.VideoCommentReplyListActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.QrcodeDetailsActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".video.VideoCategoryActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.GroupQrcodeResultActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.MyMedicalCaseActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.manage.SelectPackageActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.SelectPackageMemberActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.AddPackageMemberActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.AddFromGroupActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".msg.manage.RemarkUserInfoActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".msg.manage.RemarkUserPackageActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".video.VideoAllLiveActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.HomeSearchActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.HomeSearchResultActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".media.live.LiverDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".media.utils.HandleLiveActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/myTransparent">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.liveDetail" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".media.live.WatcherDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".media.liveplayback.ui.LiveReplayDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".media.video.VideoHotRecActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".media.live.LiveAddForeShowActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".media.live.LiveForeShowActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".home.PublishCommentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
+            android:name=".home.PublishCommentH5Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
+            android:name=".home.PeachActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".hospital.SosActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".caselib.SecondDepartmentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".caselib.DiseasesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".caselib.DiseaseHomePageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.diseaseDetail" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".mine.HybridForwardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.followerPage" />
+                <action android:name="medlinker.medlinker.hybrid.focusPage" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".msg.MsgMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".caselib.ContributorRankingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.medlinker.hybridsdk.ui.HybridWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.YltActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid.index" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".community.CommunityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feather.FeatherActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".communal.upcase.UpCaseRecordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".communal.upcase.RescueActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".communal.upcase.EditUpcaseActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".mine.infomanage.InfoManageActivity"/>
+        <activity
+            android:name=".home.CommonAdmirationActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="medlinker.medlinker.hybrid._reward_members" />
+
+                <data android:scheme="medmedlinkerhybrid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".mine.data_edit.IntroActivity" />
+        <activity android:name=".mine.data_edit.ProGreatnessActivity" />
+        <activity android:name=".mine.data_edit.AddAwardActivity" />
+        <activity
+            android:name=".mine.data_edit.AwardListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".mine.data_edit.AddJobActivity" />
+        <activity android:name=".mine.data_edit.AddPublishWorkActivity" />
+        <activity android:name=".mine.data_edit.YearSelectActivity" />
+        <activity android:name=".mine.data_edit.JobListActivity" />
+        <activity android:name=".mine.data_edit.WorkListActivity" />
+        <activity android:name=".businese.angelvalley.anglehome.PromoteRecordActivity"/>
+        <activity
+            android:name=".base.test.TestActivity"
+            android:screenOrientation="portrait" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <!-- 5.0im -->
+
+        <activity
+            android:name=".businese.msg.AddFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.group.GroupInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.ChatPrivateInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.SearchContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.AddFriendActionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.conversation.ChatSessionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".businese.msg.contact.ContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".businese.msg.ManagerContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".businese.msg.ChatUserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.ModifyNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.GroupQrCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.SimpleListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.msg.GroupMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.anglechallenge.AngelChallActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".businese.msg.im.core.ImService"
+            android:exported="true"
+            android:process=":imremote" />
+        <service
+            android:name=".businese.msg.im.core.ImService$GrayInnerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":imremote" />
+
+        <receiver
+            android:name=".businese.msg.im.MedImReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.im.receiver_action" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".mine.data_edit.MedNumberEditActivity" />
+        <activity
+            android:name=".businese.angelvalley.checkin.AngelCheckInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.achievement.AchvDisplayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".businese.angelvalley.record.FightRecordDisplayActivity"
+            android:screenOrientation="portrait" />
+    <activity android:label="InstrumentationActivity"    android:name="net.medlinker.medlinker.test.InstrumentedActivity" />
+    </application>
+    <instrumentation
+    android:handleProfiling="true"
+    android:label="CoverageInstrumentation"
+    android:name="net.medlinker.medlinker.test.JacocoInstrumentation"
+    android:targetPackage="net.medlinker.medlinker"/>
+</manifest>

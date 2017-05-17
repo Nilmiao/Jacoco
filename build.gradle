@@ -1,0 +1,307 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
+apply plugin: 'com.growingio.android'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.1'
+
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "net.medlinker.medlinker"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 510
+        versionName "5.1.0"
+
+        // dex突破65535的限制
+        multiDexEnabled true
+
+        multiDexKeepProguard file('multiDexKeep.pro')
+        //multidex: keep specific classes using proguard syntax
+
+
+        renderscriptTargetApi 15
+        renderscriptSupportModeEnabled true
+
+        //default test data
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE      : "umeng",// 默认是umeng的渠道
+                                BAIDU_LBS_API_KEY        : "D6xB5kxgyxBIQa2tkxmyGvYO",  //baidu map
+                                UMENG_UPDATE_APPKEY_VALUE: "5684d5cb67e58e5ee9000537", //umeng update
+                                PUSH_APPID_VALUE         : "iav63gJVAy8InyoTgLKBD1", //getui
+                                PUSH_APPKEY_VALUE        : "pUos3ATg4D7N7pdeFWNbW",
+                                PUSH_APPSECRET_VALUE     : "d0n1RT4Jov97qfQ8X0NIY4",
+                                PUSH_RECEIVER_VALUE      : "com.igexin.sdk.action.iav63gJVAy8InyoTgLKBD1"
+        ]
+//        API_URL_TYPE: 0-dev; 1-test; 2-sandbox; 3-online; 4-qa;
+        buildConfigField "int", "API_URL_TYPE", "4"
+        ndk {
+            // 设置支持的 SO 库构架 兼容 Tencent X5'arm64-v8a','armeabi-v7a',
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips'
+        }
+
+        resValue("string", "growingio_project_id", "816aa1c30bd81045")
+        resValue("string", "growingio_url_scheme", "growing.a411f68cc949b8ae")
+
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.xml'
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.properties'
+    }
+    dexOptions {
+        //   javaMaxHeapSize "4g"
+        preDexLibraries = false
+    }
+
+    allprojects {
+        repositories {
+            maven {
+                url 'https://github.com/suckgamony/RapidDecoder/raw/master/repository'
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            // storeFile 出于安全考虑，将签名信息放到文件中。
+            File propFile = file('signing.properties');
+            if (propFile.exists()) {
+                def Properties props = new Properties()
+                props.load(new FileInputStream(propFile))
+                if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                        props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+                    android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+                    android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+                    android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+                    android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+                } else {
+                    android.buildTypes.release.signingConfig = null
+                }
+            } else {
+                android.buildTypes.release.signingConfig = null
+            }
+
+        }
+        debug {
+            storeFile file("../medlinker.keystore")
+            keyAlias 'medlinker'
+            keyPassword 'medlinker'
+            storePassword 'medlinker'
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            manifestPlaceholders = [BAIDU_LBS_API_KEY        : "C0Da8MGku0uknWpkDtMaBLDK",  //baidu map release :C0Da8MGku0uknWpkDtMaBLDK debug:D6xB5kxgyxBIQa2tkxmyGvYO
+                                    UMENG_UPDATE_APPKEY_VALUE: "5684d5cb67e58e5ee9000537", //umeng update
+                                    PUSH_APPID_VALUE         : "iav63gJVAy8InyoTgLKBD1", //getui
+                                    PUSH_APPKEY_VALUE        : "pUos3ATg4D7N7pdeFWNbW",
+                                    PUSH_APPSECRET_VALUE     : "d0n1RT4Jov97qfQ8X0NIY4",
+                                    PUSH_RECEIVER_VALUE      : "com.igexin.sdk.action.iav63gJVAy8InyoTgLKBD1"
+            ]
+            testCoverageEnabled = true
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            // FIXME 兼容jenkins打包：混淆代码但使用测试的appId等，发版前切换。
+//            manifestPlaceholders = [BAIDU_LBS_API_KEY: "C0Da8MGku0uknWpkDtMaBLDK",  //baidu map release :C0Da8MGku0uknWpkDtMaBLDK debug:D6xB5kxgyxBIQa2tkxmyGvYO
+//                                    UMENG_UPDATE_APPKEY_VALUE: "5684d5cb67e58e5ee9000537", //umeng update
+//                                    PUSH_APPID_VALUE: "iav63gJVAy8InyoTgLKBD1", //getui
+//                                    PUSH_APPKEY_VALUE: "pUos3ATg4D7N7pdeFWNbW",
+//                                    PUSH_APPSECRET_VALUE: "d0n1RT4Jov97qfQ8X0NIY4",
+//                                    PUSH_RECEIVER_VALUE: "com.igexin.sdk.action.iav63gJVAy8InyoTgLKBD1"
+//            ]
+
+            manifestPlaceholders = [BAIDU_LBS_API_KEY        : "C0Da8MGku0uknWpkDtMaBLDK",
+                                    UMENG_UPDATE_APPKEY_VALUE: "542531eb56240b081e00029f",
+                                    PUSH_APPID_VALUE         : "6SCzm2e56BAuN7B8STIxF4",
+                                    PUSH_APPKEY_VALUE        : "apOyrRezR58FusuAmtY638",
+                                    PUSH_APPSECRET_VALUE     : "PCQyKKcUQu7AaSKdojoDD7",
+                                    PUSH_RECEIVER_VALUE      : "com.igexin.sdk.action.6SCzm2e56BAuN7B8STIxF4"
+            ]
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+//                        def fileName = "medlinker_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
+        }
+    }
+
+    // 友盟多渠道打包
+    productFlavors {
+        qa_channel {}
+//        medlinker {}
+//        tencent_app {}
+//        anzhi {}
+//        wandoujia {}
+//        meizu {}
+//        xiaomi {}
+//        lenovo {}
+//        _360appmarket {}
+//        _91_app {}
+//        appchina {}
+//        taobao {}
+//        huawei {}
+//        baidu {}
+//        hiapk {}
+//        oppo {}
+//        vivo{}
+
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    //jenkins 打包容错
+    lintOptions {
+        // Don't abort if Lint finds an error, otherwise the Jenkins build
+        // will be marked as failed, and Jenkins won't analyse the Lint output
+        abortOnError false
+    }
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+//-------- bugtags start--------
+//应用 Bugtags 插件
+apply plugin: 'com.bugtags.library.plugin'
+//Bugtags 插件配置
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
+    appKey "903a7f01f2972984e17db779dd154e0c"  //这里是你的 appKey
+    appSecret "1291157764985fbdb576bb8a2d97253a"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
+    //网络跟踪功能配置(企业版)
+    trackingNetworkEnabled false
+}
+//-------- bugtags end--------
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
+
+task jacocoTestReport(type: JacocoReport) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+    classDirectories = fileTree(
+            dir: './build/intermediates/classes/qa_channel/debug',
+            excludes: ['**/R*.class',
+                       '**/*$InjectAdapter.class',
+                       '**/*$ModuleAdapter.class',
+                       '**/*$ViewInjector*.class'
+            ])
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files("$buildDir/outputs/code-coverage/connected/flavors/QA_CHANNEL/coverage.ec")
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/qa_channel/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':sdk_third')
+    //    compile project(':lib_new_im')
+    compile project(':volley')
+    compile project(':filedownloader')
+    compile project(':im_core')
+    // compile project(':statistics')
+    compile "com.android.support:design:${SUPPORT_VERSION}"
+    compile "com.android.support:gridlayout-v7:${SUPPORT_VERSION}"
+    compile project(':ViewPagerIndicator')
+    //   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+
+    //   releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    //   testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile project(':photodraweeview')
+    compile "com.jakewharton:butterknife:${BUTTER_KNIFE_VERSION}"
+    apt "com.jakewharton:butterknife-compiler:${BUTTER_KNIFE_VERSION}"
+    compile project(':hybridsdk')
+    compile "com.android.support:cardview-v7:${SUPPORT_VERSION}"
+    //-------- bugtags start--------
+
+    //-------- bugtags end--------
+    compile project(':medialib')
+    compile "de.greenrobot:greendao:${GREENDAO_VERSION}"
+    compile project(':partners')
+    compile project(':lib_glide')
+    compile files('libs/protobuf-java-3.1.0.jar')
+    //compile 'com.bugtags.library:insta:latest.integration'
+    compile files('libs/protobuf-java-format-1.4.jar')
+
+    compile 'com.belerweb:pinyin4j:2.5.0'
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    compile 'com.qiniu:qiniu-android-sdk:7.2.0'
+    compile 'fr.tvbarthel.blurdialogfragment:lib:2.1.6'
+    compile 'org.jsoup:jsoup:1.7.2'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
+    compile 'com.facebook.stetho:stetho-okhttp:1.3.1'
+    compile 'org.nanohttpd:nanohttpd:2.3.0'
+    compile 'com.qpdstudio.logger:logger:1.0.8'
+    compile 'rapid.decoder:library:0.3.0'
+    compile 'rapid.decoder:jpeg-decoder:0.3.0'
+    compile 'rapid.decoder:png-decoder:0.3.0'
+    compile 'com.heaven7.core.adapter:adapter:1.8.1'
+    compile 'com.heaven7.core.util:util-v1:1.1.2'
+    compile 'com.heaven7.core.util:util-extra:1.0'
+    compile 'com.heaven7.android.dragflowlayout:dragflowlayout:1.8.7'
+    compile 'org.heaven7.core.view:common-view:1.2.3'
+    compile 'com.heaven7.android.adapter.countdown:ItemCountDown:1.0.8'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.github.moduth:blockcanary-android:1.2.1'
+    compile 'cz.msebera.android:httpclient:4.3.6'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'com.github.clans:fab:1.6.4'
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
+    compile 'com.squareup.sqlbrite:sqlbrite:1.1.1'
+    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.growingio.android:vds-android-agent:0.9.101@aar'
+    compile 'com.github.markomilos:paginate:0.5.0'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.8'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+}
